@@ -2,8 +2,16 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#00cc99</color>
+    <color name="colorAccent">#33b5e5</color>
 
     <color name="backGround">#eeeeee</color>
     <color name="foreGround">#ffffff</color>
+
+    <color name="correct">#00ff00</color>
+    <color name="wrong">#ff0000</color>
+
+    <color name="gradient_centerColor">#0096B8</color>
+    <color name="gradient_endColor">#00698C</color>
+    <color name="gradient_startColor">#4DB6DC</color>
+    <integer name="gradient_angle">135</integer>
 </resources>

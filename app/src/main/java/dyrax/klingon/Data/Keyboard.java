@@ -2,6 +2,7 @@ package dyrax.klingon.Data;
 
 import android.app.Activity;
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -86,30 +87,44 @@ public class Keyboard {
     private float size;
     private boolean randomized;
     private ArrayList<String> enabledChars;
+    private int keyCount;
+    private String neededChar;
 
     public Keyboard(Row[] rows, float size, boolean randomized) {
         this.rows = rows;
         this.size = size;
         this.randomized = randomized;
+        this.keyCount = 0;
+        for (Row r : this.rows) {
+            keyCount += r.charCount;
+        }
     }
 
-    public void insert(ArrayList<String> characters) {
+    public void insert(ArrayList<String> characters, String neededChar) {
+        this.neededChar = neededChar;
         if(this.randomized) {
-            Collections.shuffle(characters);
+            ArrayList<String> copied = new ArrayList<>(characters);
+            copied.remove(neededChar);
+            Collections.shuffle(copied);
+            while(copied.size() > keyCount-1) copied.remove(copied.get(0));
+            copied.add(neededChar);
+            Collections.shuffle(copied);
             int i = 0;
             for (Row r : this.rows) {
                 String[] arr = new String[r.charCount];
                 for (int x = 0; x < r.charCount; x++, i++) {
-                    arr[x] = characters.get(i);
+                    arr[x] = copied.get(i);
                 }
                 r.setCharacters(arr);
             }
         } else {
             this.enabledChars = characters;
+            if(!enabledChars.contains(neededChar))
+                throw new IllegalArgumentException("neededChar not on Keyboard");
         }
     }
 
-    public LinearLayout createKeyboard(Activity activity, final ClickListener listener, Typeface font) {
+    public LinearLayout createKeyboard(Activity activity, final ClickListener listener, Typeface font, float sizeFactor) {
         LinearLayout result = new LinearLayout(activity);
         result.setOrientation(LinearLayout.VERTICAL);
         result.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -133,8 +148,51 @@ public class Keyboard {
                 bttn.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 bttn.setText(c);
                 bttn.setTypeface(font);
-                bttn.setTextSize(this.size);
+                bttn.setTextSize(this.size * sizeFactor);
                 bttn.setOnClickListener(new KeyboardOnClickListener(listener, c));
+                bttn.setLayoutParams(new LayoutParams(1, LayoutParams.WRAP_CONTENT, 1));
+
+                lineLayout.addView(bttn);
+            }
+
+            if(l.paddingRight > 0.01) {
+                View space = new View(activity);
+                space.setLayoutParams(new LayoutParams(1, LayoutParams.MATCH_PARENT, l.paddingRight));
+                lineLayout.addView(space);
+            }
+
+            result.addView(lineLayout);
+        }
+
+        return result;
+    }
+
+    public LinearLayout createMarkedKeyboard(Activity activity, Typeface font, float sizeFactor) {
+        LinearLayout result = new LinearLayout(activity);
+        result.setOrientation(LinearLayout.VERTICAL);
+        result.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+
+        for(Row l : this.rows) {
+            LinearLayout lineLayout = new LinearLayout(activity);
+            lineLayout.setOrientation(LinearLayout.HORIZONTAL);
+            lineLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            lineLayout.setWeightSum(l.characters.length + l.paddingLeft + l.paddingRight);
+
+            if(l.paddingLeft > 0.01) {
+                View space = new View(activity);
+                space.setLayoutParams(new LayoutParams(1, LayoutParams.MATCH_PARENT, l.paddingLeft));
+                lineLayout.addView(space);
+            }
+
+            for(String c : l.characters) {
+                Button bttn = new Button(activity, null, R.style.Widget_AppCompat_Button_Borderless);
+                bttn.setMinWidth(0);
+                //bttn.setTextAppearance(R.style.TextAppearance_AppCompat_Widget_Button_Borderless_Colored);
+                bttn.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                bttn.setText(c);
+                bttn.setTypeface(font);
+                bttn.setTextSize(this.size * sizeFactor);
+                bttn.setTextColor(c.equals(neededChar) ? ContextCompat.getColor(activity, R.color.correct) : ContextCompat.getColor(activity, R.color.wrong));
                 bttn.setLayoutParams(new LayoutParams(1, LayoutParams.WRAP_CONTENT, 1));
 
                 lineLayout.addView(bttn);

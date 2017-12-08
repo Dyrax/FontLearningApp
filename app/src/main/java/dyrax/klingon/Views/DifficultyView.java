@@ -41,6 +41,10 @@ public class DifficultyView extends ConstraintLayout {
         TextView total = findViewById(R.id.total);
         total.setText(getContext().getString(R.string.total, difficulty.getCurrentTotal()));
 
+        DoubleProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar.setProgress(difficulty.getCurrentTotal(), difficulty.getDifficulty().getNeededTotal(),
+                difficulty.getHighestStreak(), difficulty.getDifficulty().getNeededStreak());
+
         if(!difficulty.isLocked()) {
             unlock();
         }

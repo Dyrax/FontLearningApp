@@ -105,7 +105,7 @@ public class LangProgress {
                 difficultyProgress.setLocked(false);
             } else {
                 DifficultyProgress previous = this.difficulties.get(i-1);
-                float prevStreak = (float)previous.getCurrentStreak() / (float)previous.getDifficulty().getNeededStreak();
+                float prevStreak = (float)previous.getHighestStreak() / (float)previous.getDifficulty().getNeededStreak();
                 float prevTotal = (float)previous.getCurrentTotal() / (float)previous.getDifficulty().getNeededTotal();
                 difficultyProgress.setLocked(streak > prevStreak || total > prevTotal);
             }

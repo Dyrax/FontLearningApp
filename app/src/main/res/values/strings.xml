@@ -1,4 +1,10 @@
 <resources>
+    <string name="training">%1$s-Training</string>
+
+    <string name="correct">Correct!</string>
+    <string name="wrong">Wrong!</string>
+    <string name="time_over">Time over!</string>
+
     <string name="invite_friends">Invite friends</string>
     <string name="invite_text">"Hey!
 I use this cool app "Font learner". You should check it out on www.fakeurl.de</string>

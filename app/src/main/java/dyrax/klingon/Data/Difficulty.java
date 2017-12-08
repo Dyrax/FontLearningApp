@@ -39,6 +39,11 @@ public class Difficulty {
         this.unlockStreak = unlockStreak;
         this.unlockTotal = unlockTotal;
         this.keyboard = keyboard;
+
+        for (Translation t : translations) {
+            if(!t.getDirection().contains(direction))
+                throw new IllegalArgumentException("Translation is not compatible with Difficulty");
+        }
     }
 
     public int getNeededTotal() {

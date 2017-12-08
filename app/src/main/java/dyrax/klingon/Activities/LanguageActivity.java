@@ -1,6 +1,7 @@
 package dyrax.klingon.Activities;
 
 import android.app.AlertDialog;
+import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -81,6 +82,12 @@ public class LanguageActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Languages.initialize(getAssets());
+        LanguageDatabase.setInstance(Room.databaseBuilder(getApplicationContext(),
+                LanguageDatabase.class, "database-lang").build());
+
+        this.setTitle(getString(R.string.app_name));
+
         setContentView(R.layout.activity_language);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -127,7 +134,9 @@ public class LanguageActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
-
+            deleteDatabase("database-lang");
+            finish();
+            startActivity(getIntent());
         } else if (id == R.id.nav_share) {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);

@@ -12,16 +12,18 @@ public class Language {
     private ArrayList<Translation> translations;
     private Typeface font;
     private String name;
+    private float sizeFactor;
 
     private IDifficultyCreator difficultyCreator;
 
-    public Language(String name, List<String> alphabet, Typeface font,
+    public Language(String name, List<String> alphabet, Typeface font, float sizeFactor,
                     ArrayList<Translation> translations, IDifficultyCreator difficultyCreator) {
         this.alphabet = alphabet;
         this.translations = translations;
         this.font = font;
         this.name = name;
         this.difficultyCreator = difficultyCreator;
+        this.sizeFactor = sizeFactor;
     }
 
     public IDifficultyCreator getDifficultyCreator() {
@@ -44,4 +46,7 @@ public class Language {
         return this.name;
     }
 
+    public float getSizeFactor() {
+        return sizeFactor;
+    }
 }

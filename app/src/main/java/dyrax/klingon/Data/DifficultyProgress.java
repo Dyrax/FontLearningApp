@@ -69,5 +69,15 @@ public class DifficultyProgress {
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
     }
+
+    public void correctClick() {
+        this.currentTotal += 1;
+        this.currentStreak += 1;
+        this.highestStreak = Math.max(this.highestStreak, this.currentStreak);
+    }
+
+    public void wrongClick() {
+        this.currentStreak = 0;
+    }
 }
 

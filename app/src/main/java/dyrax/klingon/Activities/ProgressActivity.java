@@ -47,6 +47,7 @@ public class ProgressActivity extends AppCompatActivity implements OnClickListen
         }
 
         protected void onPostExecute(LangProgress progress) {
+            activity.langProgress = progress;
             activity.setTitle(progress.getLanguage().getName());
 
             TextView level = activity.findViewById(R.id.level);
@@ -61,6 +62,7 @@ public class ProgressActivity extends AppCompatActivity implements OnClickListen
             newChars.setTypeface(progress.getLanguage().getFont());
 
             LinearLayout diffLayout = activity.findViewById(R.id.difficulties);
+            diffLayout.removeAllViews();
             for (DifficultyProgress diff : progress.getDifficulties()) {
                 DifficultyView difficultyView = new DifficultyView(activity, diff);
                 difficultyView.setOnClickListener(activity);
@@ -69,30 +71,32 @@ public class ProgressActivity extends AppCompatActivity implements OnClickListen
         }
     }
 
+    LangProgress langProgress;
+    long langId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress);
 
         Intent intent = getIntent();
-        long langId = intent.getLongExtra(EXTRA_LANG_ID, -1);
+        langId = intent.getLongExtra(EXTRA_LANG_ID, -1);
         if(langId == -1) {
-            throw new RuntimeException("Progressactivity to extra lang id");
+            throw new RuntimeException("Progressactivity no extra lang_id");
         }
-
-        new FillContentTask(this).execute(langId);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("Huhu");
+        new FillContentTask(this).execute(langId);
     }
 
     @Override
     public void onClick(View view) {
         DifficultyView difficultyView = (DifficultyView) view;
         Global.setDifficultyProgress(difficultyView.getDifficulty());
+        Global.setLangProgress(this.langProgress);
         Intent intent = new Intent(this, TrainingActivity.class);
         startActivity(intent);
     }
