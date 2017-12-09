@@ -4,7 +4,14 @@
     <string name="correct">Correct!</string>
     <string name="wrong">Wrong!</string>
     <string name="time_over">Time over!</string>
+    <string name="new_level">New level!</string>
 
+
+    <string name="clear_app">Clear App data</string>
+    <string name="import_language">Import new language</string>
+    <string name="settings">Settings</string>
+    <string name="communication">Communication</string>
+    <string name="friends">Friends</string>
     <string name="invite_friends">Invite friends</string>
     <string name="invite_text">"Hey!
 I use this cool app "Font learner". You should check it out on www.fakeurl.de</string>

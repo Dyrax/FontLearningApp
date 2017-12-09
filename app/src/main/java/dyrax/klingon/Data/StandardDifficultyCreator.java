@@ -116,7 +116,12 @@ public class StandardDifficultyCreator implements IDifficultyCreator{
     }
 
     @Override
-    public int newChars(int level, int currentChars, int newChars, int maxChars, Language language) {
+    public int newChars(int level, Language language) {
         return 4;
+    }
+
+    @Override
+    public int charCount(int level, Language language) {
+        return level * 4;
     }
 }

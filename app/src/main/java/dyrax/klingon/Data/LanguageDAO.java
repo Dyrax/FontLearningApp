@@ -1,6 +1,7 @@
 package dyrax.klingon.Data;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
@@ -26,5 +27,11 @@ public interface LanguageDAO {
     long insertLangProgress(LangProgress d);
 
     @Update
+    void updateLangProgress(LangProgress d);
+
+    @Update
     void updateDifficultyProgress(DifficultyProgress d);
+
+    @Delete
+    void deleteDifficultyProgress(DifficultyProgress d);
 }

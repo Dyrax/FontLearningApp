@@ -11,24 +11,23 @@
     android:elevation="4dp"
     android:visibility="visible">
 
-    <ImageView
+    <dyrax.klingon.Views.LockProgressView
         android:id="@+id/lockImage"
-        android:layout_width="132dp"
+        android:layout_width="87dp"
         android:layout_height="87dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@+id/layout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_lock_black_48px" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/layout"
         android:layout_width="0dp"
         android:layout_height="88dp"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -65,11 +64,11 @@
             app:layout_constraintTop_toBottomOf="@+id/highestStreak" />
 
         <dyrax.klingon.Views.DoubleProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/doubleProgressBar"
             android:layout_width="69dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"

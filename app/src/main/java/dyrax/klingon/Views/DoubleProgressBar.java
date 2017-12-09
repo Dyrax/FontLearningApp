@@ -58,5 +58,7 @@ public class DoubleProgressBar extends ConstraintLayout {
 
         TextView text = findViewById(R.id.textView);
         text.setText(String.format("%d%%", ((left*100)/(leftMax*2))+((right*100)/(rightMax*2))));
+        findViewById(R.id.imageView).setVisibility(left >= leftMax && right >= rightMax ? VISIBLE : GONE);
+        text.setVisibility(left >= leftMax && right >= rightMax ? GONE : VISIBLE);
     }
 }

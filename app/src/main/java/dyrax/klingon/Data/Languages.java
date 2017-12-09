@@ -103,7 +103,7 @@ public class Languages {
         }
     };
 
-    private static final String[] GREEK_ALPHABET = new String[] {
+    private static final String[] GREEK_NAMES_ALPHABET = new String[] {
             "up. Alpha","up. Beta","up. Gamma","up. Delta","up. Epsilon","up. Zeta","up. Eta",
             "up. Theta","up. Iota","up. Kappa","up. Lambda","up. My","up. Ny","up. Xi","up. Omikron",
             "up. Pi","up. Rho","up. Sigma","up. Tau","up. Ypsilon","up. Phi","up. Chi","up. Psi",
@@ -113,7 +113,7 @@ public class Languages {
             "lo. Psi","lo. Omega"
     };
 
-    private static final String[] GREEK_NAMES_ALPHABET = new String[] {
+    private static final String[] GREEK_ALPHABET = new String[] {
             "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ",
             "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω", "α", "β", "γ", "δ", "ϵ", "ζ", "η", "θ", "ι", "κ", "λ", "μ",
             "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "ϕ", "χ", "ψ", "ω"

@@ -15,24 +15,26 @@ public class DifficultyProgress {
     private int highestStreak;
 
     private boolean locked;
+    private float unLockProgress;
 
     @Ignore
     private Difficulty difficulty;
     private int difficultyIndex;
 
     public DifficultyProgress(int currentStreak, int currentTotal,
-                              int highestStreak, boolean locked, int difficultyIndex) {
+                              int highestStreak, boolean locked, float unLockProgress, int difficultyIndex) {
         this.currentStreak = currentStreak;
         this.currentTotal = currentTotal;
         this.highestStreak = highestStreak;
         this.locked = locked;
         this.difficultyIndex = difficultyIndex;
         this.difficulty = null;
+        this.unLockProgress = unLockProgress;
     }
 
     public static DifficultyProgress createNew(Difficulty difficulty, int difficultyIndex) {
         DifficultyProgress result = new DifficultyProgress(0, 0,
-                0, true, difficultyIndex);
+                0, true, 0.0f, difficultyIndex);
         result.setDifficulty(difficulty);
         result.id = LanguageDatabase.getInstance().languageDAO().insertDifficultyProgress(result);
         return result;
@@ -54,8 +56,15 @@ public class DifficultyProgress {
         return highestStreak;
     }
 
-    public void setLocked(boolean locked) {
+    public void setLocked(boolean locked, float streak, float total) {
+        streak = Math.max(0, Math.min(1, streak));
+        total = Math.max(0, Math.min(1, total));
         this.locked = locked;
+        this.unLockProgress = (streak + total) / 2;
+    }
+
+    public float getUnLockProgress() {
+        return unLockProgress;
     }
 
     public boolean isLocked() {
@@ -78,6 +87,10 @@ public class DifficultyProgress {
 
     public void wrongClick() {
         this.currentStreak = 0;
+    }
+
+    public boolean isCompleted() {
+        return highestStreak >= difficulty.getNeededStreak() && currentTotal >= difficulty.getNeededTotal();
     }
 }
 

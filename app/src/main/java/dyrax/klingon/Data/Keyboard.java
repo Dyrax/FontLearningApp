@@ -117,11 +117,10 @@ public class Keyboard {
                 }
                 r.setCharacters(arr);
             }
-        } else {
-            this.enabledChars = characters;
-            if(!enabledChars.contains(neededChar))
-                throw new IllegalArgumentException("neededChar not on Keyboard");
         }
+        this.enabledChars = characters;
+        if(!enabledChars.contains(neededChar))
+            throw new IllegalArgumentException("neededChar not on Keyboard");
     }
 
     public LinearLayout createKeyboard(Activity activity, final ClickListener listener, Typeface font, float sizeFactor) {
@@ -149,6 +148,8 @@ public class Keyboard {
                 bttn.setText(c);
                 bttn.setTypeface(font);
                 bttn.setTextSize(this.size * sizeFactor);
+                if(!enabledChars.contains(c))
+                    bttn.setTextColor(ContextCompat.getColor(activity, R.color.keyboard_disabled));
                 bttn.setOnClickListener(new KeyboardOnClickListener(listener, c));
                 bttn.setLayoutParams(new LayoutParams(1, LayoutParams.WRAP_CONTENT, 1));
 

@@ -45,10 +45,21 @@ public class LangProgress {
     private LangProgress(String languageId) {
         this.language = Languages.fromName(languageId);
         this.languageId = languageId;
-        this.level = 1;
-        this.currentAlphabet = new ArrayList<>(this.language.getAlphabet().subList(0, 4));
-        this.newestChars = new ArrayList<>(this.language.getAlphabet().subList(0, 4));
-        this.difficulties = new ArrayList<>();
+        this.level = 0;
+
+        nextLevel();
+
+        this.id = LanguageDatabase.getInstance().languageDAO().insertLangProgress(this);
+    }
+
+    private void nextLevel() {
+        difficulties = new ArrayList<>();
+
+        this.level += 1;
+        int newChars = this.language.getDifficultyCreator().newChars(level, language);
+        int charCount = this.language.getDifficultyCreator().charCount(level, language);
+        this.currentAlphabet = new ArrayList<>(this.language.getAlphabet().subList(0, charCount));
+        this.newestChars = new ArrayList<>(this.language.getAlphabet().subList(charCount-newChars, charCount));
         int i = 0;
         for (Difficulty d : this.language.getDifficultyCreator().createDifficulties(this.level,
                 this.currentAlphabet.size(), this.newestChars.size(), this.language.getAlphabet().size(), this.language)) {
@@ -59,9 +70,17 @@ public class LangProgress {
             this.difficultyIds.add(d.id);
         }
 
-        this.id = LanguageDatabase.getInstance().languageDAO().insertLangProgress(this);
-
         updateLocks();
+    }
+
+    public void upgrade() {
+        if(!upgradeAvailable()) return;
+
+        for(DifficultyProgress d : difficulties) {
+            LanguageDatabase.getInstance().languageDAO().deleteDifficultyProgress(d);
+        }
+        nextLevel();
+        LanguageDatabase.getInstance().languageDAO().updateLangProgress(this);
     }
 
     public static LangProgress CreateNew(String languageId) {
@@ -84,6 +103,13 @@ public class LangProgress {
         return level;
     }
 
+    public boolean upgradeAvailable() {
+        for(DifficultyProgress d : this.difficulties) {
+            if(!d.isCompleted()) return false;
+        }
+        return true;
+    }
+
     public ArrayList<String> getCurrentAlphabet() {
         return currentAlphabet;
     }
@@ -102,12 +128,12 @@ public class LangProgress {
             float streak = difficultyProgress.getDifficulty().getUnlockStreak();
             float total = difficultyProgress.getDifficulty().getUnlockTotal();
             if(streak < 0.0f || total < 0.0f) {
-                difficultyProgress.setLocked(false);
+                difficultyProgress.setLocked(false, 0.0f, 0.0f);
             } else {
                 DifficultyProgress previous = this.difficulties.get(i-1);
                 float prevStreak = (float)previous.getHighestStreak() / (float)previous.getDifficulty().getNeededStreak();
                 float prevTotal = (float)previous.getCurrentTotal() / (float)previous.getDifficulty().getNeededTotal();
-                difficultyProgress.setLocked(streak > prevStreak || total > prevTotal);
+                difficultyProgress.setLocked(streak > prevStreak || total > prevTotal, prevStreak / streak, prevTotal / total);
             }
         }
     }

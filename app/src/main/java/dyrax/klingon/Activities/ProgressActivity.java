@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
+import android.widget.Space;
 import android.widget.TextView;
 
 import java.util.List;
@@ -43,6 +44,7 @@ public class ProgressActivity extends AppCompatActivity implements OnClickListen
         protected LangProgress doInBackground(Long... params) {
             long langId = params[0];
             LangProgress progress = LanguageDatabase.getInstance().languageDAO().loadLangProgress(langId);
+            progress.upgrade();
             return progress;
         }
 
@@ -63,11 +65,13 @@ public class ProgressActivity extends AppCompatActivity implements OnClickListen
 
             LinearLayout diffLayout = activity.findViewById(R.id.difficulties);
             diffLayout.removeAllViews();
+            diffLayout.addView(new Space(activity));
             for (DifficultyProgress diff : progress.getDifficulties()) {
                 DifficultyView difficultyView = new DifficultyView(activity, diff);
                 difficultyView.setOnClickListener(activity);
                 diffLayout.addView(difficultyView);
             }
+            diffLayout.addView(new Space(activity));
         }
     }
 

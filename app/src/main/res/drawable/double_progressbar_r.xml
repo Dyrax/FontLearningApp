@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:innerRadiusRatio="3"
+    android:shape="ring"
+    android:thicknessRatio="6.0"
+    android:useLevel="true">
+    <gradient
+        android:angle="@integer/gradient_angle"
+        android:centerColor="@color/gradient_centerColor"
+        android:endColor="@color/gradient_endColor"
+        android:startColor="@color/gradient_startColor"
+        android:type="linear" />
+</shape>

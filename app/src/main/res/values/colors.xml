@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="keyboard_disabled">#666</color>
+
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#33b5e5</color>
@@ -9,6 +11,7 @@
 
     <color name="correct">#00ff00</color>
     <color name="wrong">#ff0000</color>
+    <color name="info">#3399ff</color>
 
     <color name="gradient_centerColor">#0096B8</color>
     <color name="gradient_endColor">#00698C</color>

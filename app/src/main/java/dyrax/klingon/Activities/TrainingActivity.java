@@ -180,7 +180,7 @@ public class TrainingActivity extends AppCompatActivity implements ClickListener
         } else {
             String original = langProgress.getCurrentAlphabet().get(charIndex);
             searchedChar = translation.translateFromThis(original);
-            difficultyProgress.getDifficulty().getKeyboard().insert(langProgress.getCurrentAlphabet(), langProgress.getCurrentAlphabet().get(charIndex));
+            difficultyProgress.getDifficulty().getKeyboard().insert(langProgress.getCurrentAlphabet(), original);
             fontSearched = translation.getFont();
             fontKeyboard = language.getFont();
             sizeFactor = language.getSizeFactor();
@@ -213,6 +213,9 @@ public class TrainingActivity extends AppCompatActivity implements ClickListener
         text.setText(searchedChar);
         text.setTypeface(fontSearched);
         text.setTextSize(searchedFactor * 100.0f);
+
+        (findViewById(R.id.textNewLevel)).setVisibility(langProgress.upgradeAvailable() ? View.VISIBLE : View.GONE);
+
         updateText();
     }
     private void updateText() {

@@ -25,11 +25,6 @@ public class DifficultyView extends ConstraintLayout {
         update();
     }
 
-    public void unlock() {
-        findViewById(R.id.lockImage).setVisibility(INVISIBLE);
-        findViewById(R.id.layout).setVisibility(VISIBLE);
-    }
-
 
     public void update() {
         TextView currentStreak = findViewById(R.id.currentStreak);
@@ -41,12 +36,18 @@ public class DifficultyView extends ConstraintLayout {
         TextView total = findViewById(R.id.total);
         total.setText(getContext().getString(R.string.total, difficulty.getCurrentTotal()));
 
-        DoubleProgressBar progressBar = findViewById(R.id.progressBar);
+        DoubleProgressBar progressBar = findViewById(R.id.doubleProgressBar);
         progressBar.setProgress(difficulty.getCurrentTotal(), difficulty.getDifficulty().getNeededTotal(),
                 difficulty.getHighestStreak(), difficulty.getDifficulty().getNeededStreak());
 
-        if(!difficulty.isLocked()) {
-            unlock();
+        if(difficulty.isLocked()) {
+            LockProgressView lockProgressView = findViewById(R.id.lockImage);
+            lockProgressView.setVisibility(VISIBLE);
+            lockProgressView.setPercent(difficulty.getUnLockProgress());
+            findViewById(R.id.layout).setVisibility(INVISIBLE);
+        } else {
+            findViewById(R.id.lockImage).setVisibility(INVISIBLE);
+            findViewById(R.id.layout).setVisibility(VISIBLE);
         }
     }
 
